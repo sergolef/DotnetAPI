@@ -48,8 +48,12 @@ namespace DotnetAPI.Data
         {
             User? user;
 
-            return _entityFramework.Users.Where(u => u.UserId == userId).FirstOrDefault<User>();
-           
+            user = _entityFramework.Users.Where(u => u.UserId == userId).FirstOrDefault<User>();
+
+            if(user == null){
+                throw new Exception("User is not found");
+            }
+            return user;
         }
 
         public IEnumerable<UserSalary> GetUserSalary(int userId)

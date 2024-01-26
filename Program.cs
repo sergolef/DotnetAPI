@@ -27,9 +27,12 @@ builder.Services.AddCors((options) =>
         .AllowCredentials();
     });
 });
+
+builder.Services.AddScoped<IUserRepository, UserRepository>(); 
+
 var app = builder.Build();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
