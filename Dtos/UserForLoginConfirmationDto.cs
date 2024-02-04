@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DotnetAPI.Dtos
 {
-    partial class UserForLoginConfirmationDto
+    public partial class UserForLoginConfirmationDto
     {
         public UserForLoginConfirmationDto()
         {
@@ -20,9 +20,9 @@ namespace DotnetAPI.Dtos
             }
         }
 
-        byte[] PasswordHash { get; set; }
+        public byte[] PasswordHash { get; set; }
 
-        byte[] PasswordSolt { get; set; }
+        public byte[] PasswordSolt { get; set; }
 
     }
 }
