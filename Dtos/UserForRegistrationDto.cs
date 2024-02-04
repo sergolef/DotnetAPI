@@ -9,24 +9,25 @@ namespace DotnetAPI.Dtos
     {
         public UserForRegistrationDto()
         {
-            if (Password == null)
-            {
-                Password = "";
-            }
 
-            if(PasswordConfirm == null)
-            {
-                PasswordConfirm = "";
-            }
+            Password ??= "";
 
-            if(Email == null)
-            {
-                Email = "";
-            }
+            PasswordConfirm ??= "";
+
+            Email ??= "";
+
+            FirstName ??= "";
+
+            LastName ??= "";
+
+            Gender ??= "";
         }
 
         public string Password { get; set; }
-        public string Email { get; set; }  
-        public string PasswordConfirm { get; set; } 
+        public string Email { get; set; }
+        public string PasswordConfirm { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { set; get; }
+        public string Gender { get; set; }
     }
 }
