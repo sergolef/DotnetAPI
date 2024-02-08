@@ -14,15 +14,15 @@ namespace DotnetAPI.Dtos
                 PasswordHash = new byte[0];
             }
 
-            if(PasswordSolt == null)
+            if(PasswordSalt == null)
             {
-                PasswordSolt = new byte[0];
+                PasswordSalt = new byte[0];
             }
         }
 
         public byte[] PasswordHash { get; set; }
 
-        public byte[] PasswordSolt { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
     }
 }
