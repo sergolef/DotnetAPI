@@ -21,6 +21,10 @@ namespace DotnetAPI.Dtos
             LastName ??= "";
 
             Gender ??= "";
+
+            JobTitle ??= "";
+
+            Department ??= "";
         }
 
         public string Password { get; set; }
@@ -29,5 +33,8 @@ namespace DotnetAPI.Dtos
         public string FirstName { get; set; }
         public string LastName { set; get; }
         public string Gender { get; set; }
+        public string JobTitle {get;set;}
+        public string Department {set; get;}
+        public decimal Salary {get;set;}
     }
 }
