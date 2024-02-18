@@ -7,10 +7,12 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Dapper;
 using DotnetAPI.Data;
 using DotnetAPI.Dtos;
 using DotnetAPI.Helpers;
+using DotnetAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
@@ -30,11 +32,19 @@ namespace DotnetAPI.Controller
 
         private readonly AuthHelper _authHelper;
 
+        private readonly IMapper _mapper;
+        
+        private readonly ReusableSql _reusableSql;
+
         public AuthController(IConfiguration config)
         {
             _config = config;
             _dapper = new DataContextDapper(config);
             _authHelper = new AuthHelper(_config);
+            _mapper = new Mapper(new MapperConfiguration( config => {
+                config.CreateMap<UserForRegistrationDto, UserComplete>();
+            }));
+            _reusableSql = new ReusableSql(config);
         }
 
         [AllowAnonymous]
@@ -100,19 +110,14 @@ namespace DotnetAPI.Controller
                         Email = userForRegistration.Email
                     };
 
+                    
+
                     if (_authHelper.SetPassword(userForLogin))
                     {
-                        string sqlUser = @"EXEC TutorialAppSchema.spUser_Upsert
-                                @FirstName = '" + userForRegistration.FirstName +
-                            "',@LastName = '" + userForRegistration.LastName +
-                            "',@Email = '" + userForRegistration.Email +
-                            "', @Gender = '" + userForRegistration.Gender +
-                            "', @JobTitle = '" + userForRegistration.JobTitle +
-                            "', @Department = '" + userForRegistration.Department +
-                            "', @Salary = '" + userForRegistration.Salary +
-                            "', @Active = 1";
+                        UserComplete userComplete = _mapper.Map<UserComplete>(userForRegistration);
+                        userComplete.Active = true;
 
-                        if (_dapper.ExecuteSql(sqlUser))
+                        if (_reusableSql.UpsertUser(userComplete))
                         {
                             return Ok();
                         }
